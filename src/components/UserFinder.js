@@ -2,12 +2,13 @@ import { Fragment, Component } from "react";
 import classes from "./UserFinder.module.css";
 import Users from "./Users";
 import UsersContext from "../store/users-context";
+import ErrorBoundary from "./ErrorBoundary";
 
-const DUMMY_USERS = [
-  { id: "u1", name: "Max" },
-  { id: "u2", name: "Manuel" },
-  { id: "u3", name: "Julie" },
-];
+//const DUMMY_USERS = [
+//  { id: "u1", name: "Max" },
+//  { id: "u2", name: "Manuel" },
+//  { id: "u3", name: "Julie" },
+//];
 
 class UserFinder extends Component {
   static contextType = UsersContext;
@@ -15,7 +16,7 @@ class UserFinder extends Component {
   constructor() {
     super();
     this.state = {
-      filteredUsers: DUMMY_USERS,
+      filteredUsers: [],
       searchTerm: "",
     };
   }
@@ -44,7 +45,9 @@ class UserFinder extends Component {
         <div className={classes.finder}>
           <input type="search" onChange={this.searchChangeHandler.bind(this)} />
         </div>
-        <Users users={this.state.filteredUsers} />
+        <ErrorBoundary>
+          <Users users={this.state.filteredUsers} />
+        </ErrorBoundary>
       </Fragment>
     );
   }
